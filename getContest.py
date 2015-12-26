@@ -6,12 +6,15 @@ CODECHEF_PROBLEM_URL = 'https://www.codechef.com/problems/'
 
 #contestCode = "DEC15"
 
+def getContestJsonData(contestCode):
+    return json.load(urlopen(CODECHEF_API_URL+contestCode))#open('DEC15' + '.json'))
+
 
 def getContest(contestCode):
-    data = json.load(urlopen(CODECHEF_API_URL+contestCode))#open('DEC15' + '.json'))
+    data = getContestJsonData(contestCode)
     problemData = {}
     if 'problems_data' not in data:
-        print("Problems not embedded. Fetching individual problems:")
+        #p               rint("Problems not embedded. Fetching individual problems:")
         for problem in data['problems']:
             print(problem)
             problemData[str(problem)] = {}
