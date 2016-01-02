@@ -11,8 +11,7 @@ def getHtmlFromUrl(url):
     assert isinstance(htmlData, object)
     return htmlData
 
-def getJsonDataFromUrl(contestCode):
-    url = Constants.CODECHEF_API_URL + contestCode
+def getJsonDataFromUrl(url):
     assert isinstance(requests.get(url).json, object)
     return requests.get(url).json()
 
@@ -52,4 +51,4 @@ def getContest(contestCode,data):
         outputFile.write(outputString)
 
 
-getContest("DEC15", getJsonDataFromUrl("DEC15"));
+
