@@ -5,6 +5,8 @@ import re
 import requests
 
 from core import Constants
+from core.sqlite import contestListService
+
 
 def getHtmlFromUrl(url):
     htmlData = requests.get(url).text
@@ -22,8 +24,8 @@ def getInputOutputFromHtml(body):
     body = body[body.find("<h3>Example</h3>"):]
     body = body[body.find("<pre>"):body.find("</pre>")]
     body = re.sub("<.*?>", "", body)
-    inputString = re.sub("\n\n","\n",body[body.find("Input:")+7:body.find("Output")])
-    outputString = re.sub("\n\n","\n",body[body.find("Output:")+8:])
+    inputString = re.sub("\n\n", "\n", body[body.find("Input:")+7:body.find("Output")])
+    outputString = re.sub("\n\n", "\n", body[body.find("Output:")+8:])
     print("Input string is :")
     print(inputString)
     print("Output string is :")
@@ -33,6 +35,9 @@ def getInputOutputFromHtml(body):
 
 def getContest(contestCode,data):
     problemData = {}
+    contestListService.insertContest(data["name"],contestCode)
+    for problem in data["problems"]:
+        contestListService.insertProblemIntoContest(contestCode,problem["name"],problem["code"])
     if 'problems_data' not in data:
         print("Problems not embedded. Fetching individual problems:")
         for problem in data['problems']:
